@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import static top.greendami.wifistate.WifiState.STATE.LOADING;
@@ -89,14 +90,16 @@ public class WifiState extends View {
                 heightSpecSize * 16 / 11);
         switch (mSTATE){
             case LOADING:
+
                 inactivePaint.setStrokeWidth(heightSpecSize  / 11);
-                activePaint.setStrokeWidth(heightSpecSize  / 11);
+
                 canvas.drawArc(rectF1 , -45 , -90 , false , inactivePaint);
                 canvas.drawArc(rectF2 , -45 , -90 , false , inactivePaint);
                 canvas.drawArc(rectF3 , -45 , -90 , false , inactivePaint);
+                canvas.save();
+                activePaint.setStrokeWidth(heightSpecSize  / 11);
                 activePaint.setStyle(Paint.Style.FILL);
                 canvas.drawCircle(widthSpecSize /2 , heightSpecSize * 10 / 11 , heightSpecSize  / 11 ,activePaint);
-                activePaint.setStrokeWidth(heightSpecSize  / 11);
 
                 Point activeStartPoint = getActiveStartPoint();
 
@@ -106,10 +109,14 @@ public class WifiState extends View {
 
                 activePaint.setStrokeWidth(heightSpecSize  / 11);
                 activePaint.setStyle(Paint.Style.STROKE);
-                canvas.drawArc(rectF1 , shadowAngle , shadow , false , activePaint);
-                canvas.drawArc(rectF2 , shadowAngle , shadow , false , activePaint);
-                canvas.drawArc(rectF3 , shadowAngle , shadow , false , activePaint);
-                invalidate();
+                Log.d("WifiState", "shadow:" + shadow);
+                if(shadow != 0){
+                    canvas.drawArc(rectF1 , shadowAngle , shadow , false , activePaint);
+                    canvas.drawArc(rectF2 , shadowAngle , shadow , false , activePaint);
+                    canvas.drawArc(rectF3 , shadowAngle , shadow , false , activePaint);
+                }
+                canvas.restore();
+                postInvalidate();
                 break;
             case OK:
                 activePaint.setStyle(Paint.Style.STROKE);
@@ -120,7 +127,7 @@ public class WifiState extends View {
                 canvas.drawArc(rectF3 , -45 , -90 , false , activePaint);
                 activePaint.setStyle(Paint.Style.FILL);
                 canvas.drawCircle(widthSpecSize /2 , heightSpecSize * 10 / 11 , heightSpecSize  / 11 ,activePaint);
-
+                canvas.save();
                 break;
             case ERROR:
                 inactivePaint.setStrokeWidth(heightSpecSize  / 11);
@@ -135,10 +142,12 @@ public class WifiState extends View {
                 activePaint.setStrokeWidth(heightSpecSize*1.2f);
 
                 canvas.drawArc(rectF1 , -83 , -14 , false , activePaint);
+                canvas.save();
                 break;
 
         }
     }
+
 
     private void getShadowAngle() {
         //direct = true ,  +
@@ -224,9 +233,9 @@ public class WifiState extends View {
         }
 
 
-
-        int x = (int)(heightSpecSize / Math.sqrt(2)) + (int)(heightSpecSize * Math.cos(Math.toRadians(activeAngle + 90)));
-        int y = heightSpecSize - (int)(heightSpecSize * Math.sin(Math.toRadians(activeAngle + 90)));
+        int r = heightSpecSize;
+        int x = (int)(r / Math.sqrt(2)) + (int)(r * Math.cos(Math.toRadians(activeAngle + 90)));
+        int y = r - (int)(r * Math.sin(Math.toRadians(activeAngle + 90)));
         return new Point(x , y);
     }
 
