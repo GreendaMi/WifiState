@@ -9,3 +9,17 @@ Quick concept for connecting Wi-Fi and error status animation。
 
 &#160; &#160; &#160; &#160;![tu.gif](https://github.com/GreendaMi/WifiState/blob/master/wifi2.gif?raw=true "")
 
+引入依赖：
+```
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+  
+ dependencies {
+	        compile 'com.github.GreendaMi:WifiState:1,0'
+	}
+```
+
