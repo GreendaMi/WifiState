@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
-
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.greendami'
 android {
     compileSdkVersion 25
     buildToolsVersion "24.0.2"
@@ -37,5 +38,3 @@ dependencies {
 }
 
 
-apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.greendami'
