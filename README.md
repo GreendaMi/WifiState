@@ -23,3 +23,20 @@ allprojects {
 	}
 ```
 
+xml中使用
+```xml
+    <top.greendami.wifistate.WifiState
+        android:id="@+id/wifiState"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="#00000000"
+        />
+```
+java代码
+```java
+mWifiState =(WifiState) findViewById(R.id.wifiState);
+//设置状态
+mWifiState.setSTATE(WifiState.STATE.OK);
+mWifiState.setSTATE(WifiState.STATE.LOADING);
+mWifiState.setSTATE(WifiState.STATE.ERROR);
+```
