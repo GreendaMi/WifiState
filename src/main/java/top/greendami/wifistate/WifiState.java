@@ -88,6 +88,7 @@ public class WifiState extends View {
                 heightSpecSize * 13 / 22 ,
                 widthSpecSize / 2 + heightSpecSize * 9 / 22 ,
                 heightSpecSize * 16 / 11);
+        Point activeStartPoint;
         switch (mSTATE){
             case LOADING:
 
@@ -101,7 +102,7 @@ public class WifiState extends View {
                 activePaint.setStyle(Paint.Style.FILL);
                 canvas.drawCircle(widthSpecSize /2 , heightSpecSize * 10 / 11 , heightSpecSize  / 11 ,activePaint);
 
-                Point activeStartPoint = getActiveStartPoint();
+                activeStartPoint = getActiveStartPoint();
 
                 canvas.drawLine(activeStartPoint.x,activeStartPoint.y,widthSpecSize / 2, heightSpecSize * 12 / 13 , activePaint);
 
@@ -130,6 +131,76 @@ public class WifiState extends View {
                 canvas.save();
                 break;
             case ERROR:
+
+
+                if(shadowAngle != -90){
+                    inactivePaint.setStrokeWidth(heightSpecSize  / 11);
+
+                    canvas.drawArc(rectF1 , -45 , -90 , false , inactivePaint);
+                    canvas.drawArc(rectF2 , -45 , -90 , false , inactivePaint);
+                    canvas.drawArc(rectF3 , -45 , -90 , false , inactivePaint);
+                    canvas.save();
+                    activePaint.setStrokeWidth(heightSpecSize  / 11);
+                    activePaint.setStyle(Paint.Style.FILL);
+                    canvas.drawCircle(widthSpecSize /2 , heightSpecSize * 10 / 11 , heightSpecSize  / 11 ,activePaint);
+
+                    activeStartPoint = getActiveStartPoint();
+
+                    canvas.drawLine(activeStartPoint.x,activeStartPoint.y,widthSpecSize / 2, heightSpecSize * 12 / 13 , activePaint);
+
+                    getShadowAngle();
+
+                    activePaint.setStrokeWidth(heightSpecSize  / 11);
+                    activePaint.setStyle(Paint.Style.STROKE);
+                    Log.d("WifiState", "shadow:" + shadow);
+                    if(shadow != 0){
+                        canvas.drawArc(rectF1 , shadowAngle , shadow , false , activePaint);
+                        canvas.drawArc(rectF2 , shadowAngle , shadow , false , activePaint);
+                        canvas.drawArc(rectF3 , shadowAngle , shadow , false , activePaint);
+                    }
+                    canvas.restore();
+                    postInvalidate();
+                    break;
+                }
+
+                if(shadowAngle == -90 && shadow != 0){
+                    inactivePaint.setStrokeWidth(heightSpecSize  / 11);
+
+                    canvas.drawArc(rectF1 , -45 , -90 , false , inactivePaint);
+                    canvas.drawArc(rectF2 , -45 , -90 , false , inactivePaint);
+                    canvas.drawArc(rectF3 , -45 , -90 , false , inactivePaint);
+                    canvas.save();
+                    activePaint.setStrokeWidth(heightSpecSize  / 11);
+                    activePaint.setStyle(Paint.Style.FILL);
+                    canvas.drawCircle(widthSpecSize /2 , heightSpecSize * 10 / 11 , heightSpecSize  / 11 ,activePaint);
+
+                    int r = heightSpecSize;
+                    int x = (int)(r / Math.sqrt(2)) + (int)(r * Math.cos(Math.toRadians(activeAngle + 90)));
+                    int y = r - (int)(r * Math.sin(Math.toRadians(activeAngle + 90)));
+                    canvas.drawLine(x , y,widthSpecSize / 2, heightSpecSize * 12 / 13 , activePaint);
+
+
+                    activePaint.setStrokeWidth(heightSpecSize  / 11);
+                    activePaint.setStyle(Paint.Style.STROKE);
+                    Log.d("WifiState", "shadow:" + shadow);
+
+                    if(shadow > 0){
+                        shadow = shadow - 1;
+                    }else{
+                        shadow = shadow + 1;
+                    }
+
+                    if(shadow != 0){
+                        canvas.drawArc(rectF1 , shadowAngle , shadow , false , activePaint);
+                        canvas.drawArc(rectF2 , shadowAngle , shadow , false , activePaint);
+                        canvas.drawArc(rectF3 , shadowAngle , shadow , false , activePaint);
+                    }
+                    canvas.restore();
+                    postInvalidate();
+                    break;
+                }
+
+
                 inactivePaint.setStrokeWidth(heightSpecSize  / 11);
                 activePaint.setStyle(Paint.Style.FILL);
                 activePaint.setStrokeWidth(heightSpecSize  / 11);
